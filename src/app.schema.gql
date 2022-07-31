@@ -1,0 +1,26 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Mutation {
+  create(newTranslateInput: NewTranslateInput!): TranslateObject!
+}
+
+input NewTranslateInput {
+  from: String
+  text: String!
+  to: String!
+}
+
+type Query {
+  findAll: [TranslateObject!]!
+}
+
+type TranslateObject {
+  from: String!
+  id: Float!
+  messate: String!
+  to: String!
+  translated: String!
+  user: Float!
+}
