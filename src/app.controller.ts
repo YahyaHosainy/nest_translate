@@ -1,12 +1,19 @@
 import { Controller, Get, Req } from '@nestjs/common';
-import { Request } from "express"
+import { Request } from 'express';
 import { UsersService } from './database/users/users.service';
+
+/*
+|--------------------------------------------------------------------------
+| App main controller
+|--------------------------------------------------------------------------
+|
+| Nothing it has only for testing purposes.
+|
+*/
 
 @Controller()
 export class AppController {
-  constructor(
-    private usersService: UsersService
-  ) {}
+  constructor(private usersService: UsersService) {}
 
   async getHistory(@Req() req: Request) {
     let data = await this.usersService.usersRepository.find({
@@ -16,10 +23,10 @@ export class AppController {
       relations: {
         history: true,
       },
-      take: 1
-    })
+      take: 1,
+    });
 
-    const { password, ...rest } = data[0]
-    return rest
+    const { password, ...rest } = data[0];
+    return rest;
   }
 }

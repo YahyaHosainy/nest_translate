@@ -9,17 +9,39 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { TranslatorModule } from './translator/translator.module';
 import { TranslatesModule } from './database/translates/translates.module';
+import { UserModule } from './user/user.module';
+
+/*
+|--------------------------------------------------------------------------
+| Main app moduel
+|--------------------------------------------------------------------------
+|
+| Importing all modules and QG configs.
+|
+*/
 
 @Module({
   imports: [
+    // Database
     DatabaseModule,
+
+    // AUth
     AuthModule,
+
+    // Database translate module
     TranslatesModule,
+
+    // GQ translator module
     TranslatorModule,
+
+    // GQ user module
+    UserModule,
+
+    // GraphQL configs
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/app.schema.gql'),
-      include: [TranslatorModule],
+      include: [TranslatorModule, UserModule],
       sortSchema: true,
       playground: true,
       context: ({ req, res }) => ({
@@ -28,7 +50,11 @@ import { TranslatesModule } from './database/translates/translates.module';
       }),
     }),
   ],
+
+  // Main controller
   controllers: [AppController],
+
+  // global auth guard
   providers: [
     {
       provide: APP_GUARD,

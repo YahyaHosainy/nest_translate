@@ -1,39 +1,62 @@
 import { Injectable } from '@nestjs/common';
-import { Translate } from 'src/database/translate.entity';
-import { TranslatesService } from 'src/database/translates/translates.service';
-import { User } from 'src/database/user.entity';
+const translate = require('@vitalets/google-translate-api');
 
-interface CreateTranslateObjectParam {
+/*
+|--------------------------------------------------------------------------
+| Translator services
+|--------------------------------------------------------------------------
+|
+| Used for translation service.
+|
+*/
+
+/**
+ * Param type of translate method
+ *
+ * @interface translateParams
+ */
+interface translateParams {
   from: string;
   to: string;
   text: string;
-  translated: string;
-  user: number;
 }
 
 @Injectable()
 export class TranslatorService {
-  constructor(private readonly translateService: TranslatesService) {}
+  constructor() {}
 
-  async createTranslate({
-    from,
-    to,
-    text,
-    translated,
-    user,
-  }: CreateTranslateObjectParam): Promise<Translate> {
-    let tr = new Translate();
-    tr.from = from;
-    tr.to = to;
-    tr.messate = text;
-    tr.translated = translated;
-    tr.user = user;
-    await this.translateService.translatesRepository.save(tr)
+  /**
+   * Receives text and target lanuage and return translation
+   *
+   * @param {translateParams} { from, to, text }
+   * @return {Promise<{
+   *     from: string;
+   *     to: string;
+   *     translated: string;
+   *   }>}
+   * @memberof TranslatorService
+   */
+  async translate({ from, to, text }: translateParams): Promise<{
+    from: string;
+    to: string;
+    translated: string;
+  }> {
+    // make translation options
+    let langOption: { from?: string; to: string } = { to: to };
+    if (from) langOption.from = from;
 
-    return tr
-  }
+    // Request for translate
+    let res = await translate(text, langOption);
 
-  getAll(){
-    return this.translateService.translatesRepository.find()
+    // Get the response text and source lang.
+    let translated: string = res.text;
+    from = res.from.language.iso;
+
+    // Return translation
+    return {
+      from,
+      to,
+      translated,
+    };
   }
 }

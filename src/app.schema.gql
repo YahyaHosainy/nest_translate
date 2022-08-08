@@ -2,8 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+"""Date type, receives miliseconds and sends string"""
+scalar Date
+
 type Mutation {
-  create(newTranslateInput: NewTranslateInput!): TranslateObject!
+  create(newTranslateInput: NewTranslateInput!): NoUserTranslateObject!
 }
 
 input NewTranslateInput {
@@ -12,15 +15,39 @@ input NewTranslateInput {
   to: String!
 }
 
+type NoHistoryUserObject {
+  email: String!
+  fullName: String!
+  id: Int!
+}
+
+type NoUserTranslateObject {
+  date: Date!
+  from: String!
+  id: Int!
+  message: String!
+  to: String!
+  translated: String!
+}
+
 type Query {
-  findAll: [TranslateObject!]!
+  translations(limit: Int, offset: Int): [TranslateObject!]!
+  user: UserObject!
 }
 
 type TranslateObject {
+  date: Date!
   from: String!
-  id: Float!
-  messate: String!
+  id: Int!
+  message: String!
   to: String!
   translated: String!
-  user: Float!
+  user: NoHistoryUserObject!
+}
+
+type UserObject {
+  email: String!
+  fullName: String!
+  history: [NoUserTranslateObject!]!
+  id: Int!
 }

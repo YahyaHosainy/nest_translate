@@ -7,6 +7,16 @@ import { UsersModule } from './users/users.module';
 import { TranslatesModule } from './translates/translates.module';
 import environments from 'src/environments/current';
 
+/*
+|--------------------------------------------------------------------------
+| Database module
+|--------------------------------------------------------------------------
+|
+| This module will be used for connecting to database, creating entities (tables),
+| And managing the data entry and our fetch queries.
+|
+*/
+
 @Module({
   imports: [
     ConfigModule,

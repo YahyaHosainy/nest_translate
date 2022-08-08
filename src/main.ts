@@ -1,15 +1,24 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import environments from 'src/environments/current';
-import { UserInterface } from "./database/user.entity"
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { PrivateUserInterface } from './interfaces/user.interface';
+
+/*
+|--------------------------------------------------------------------------
+| Bootstrapping app
+|--------------------------------------------------------------------------
+|
+| For creating server instance.
+|
+*/
 
 /**
  * Declare User object of Express request
  */
 declare global {
   namespace Express {
-    interface User extends UserInterface {}
+    interface User extends PrivateUserInterface {}
   }
 }
 

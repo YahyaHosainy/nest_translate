@@ -1,7 +1,14 @@
 import { createParamDecorator } from '@nestjs/common';
 
-// export const gqUser = createParamDecorator(
-//   (data, req) => req.user,
-// );
+/*
+|--------------------------------------------------------------------------
+| User decorator for GQ reslvers
+|--------------------------------------------------------------------------
+|
+| It maks getting user object easier for resolvers.
+|
+*/
 
-export const gqUser = createParamDecorator((data, req) => req.args[2].req.user);
+export const gqUser = createParamDecorator(
+  (data, context) => context.args[2].req.user,
+);

@@ -1,4 +1,13 @@
-import { DatabaseType } from "typeorm";
+import { DatabaseType } from 'typeorm';
+
+/*
+|--------------------------------------------------------------------------
+| Types of environment variables
+|--------------------------------------------------------------------------
+|
+| To make sure they have valid types.
+|
+*/
 
 declare global {
   namespace NodeJS {
